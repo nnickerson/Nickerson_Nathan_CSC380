@@ -1,0 +1,29 @@
+package server;
+
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Server {
+	
+	Socket sSocket;
+
+	public Server() {
+		
+	}
+
+	public void setupServer() {
+		try {
+			ServerSocket sServerSocket = new ServerSocket(7823);
+			Thread clientConnection = new Thread();
+			sSocket = sServerSocket.accept();
+			clientConnection.run();
+			InputStreamReader clientRequest = new InputStreamReader(sSocket.getInputStream());
+			System.out.println(clientRequest.);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

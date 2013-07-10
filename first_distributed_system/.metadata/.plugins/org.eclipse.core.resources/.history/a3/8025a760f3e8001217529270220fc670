@@ -1,0 +1,73 @@
+package server;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Server {
+	
+	Socket sSocket;
+
+	public Server() {
+		
+	}
+
+	public void setupServer() {
+		try {
+			ServerSocket sServerSocket = new ServerSocket(7823);
+			Thread clientConnection = new Thread();
+			System.out.println("Server has started!");
+			sSocket = sServerSocket.accept();
+			clientConnection.run();
+			
+			boolean isRunning = true;
+			while(isRunning) {
+				InputStream is = sSocket.getInputStream();
+				InputStreamReader clientStream = new InputStreamReader(is);
+				BufferedReader buffRead = new BufferedReader(clientStream);
+				String clientRequest = buffRead.readLine();
+				
+				int choice = Integer.parseInt(clientRequest);
+				
+				MathLogic logic = new MathLogic();
+				if(choice == 1) {
+					logic.add(1, 1);
+				}
+				else if(choice == 2) {
+					logic.subtract(1, 1);
+				}
+			}
+
+//			ServerSocket myServerSocket = new ServerSocket(7823);
+//			System.out.println("My server socket has been created!");
+//			Socket mySocket = null;
+//			boolean isRunning = true;
+//			while(isRunning) {
+//				mySocket = myServerSocket.accept();
+//				System.out.println("The servers socket is now open and received a connection!");
+//				if(mySocket != null) {
+//					BufferedReader clientIn = new BufferedReader(new InputStreamReader(mySocket.getInputStream()));
+//					String serverReply = "Hi " + clientIn.readLine();
+//					OutputStream toClientStream = mySocket.getOutputStream();
+//					PrintWriter toClient = new PrintWriter(toClientStream, false);
+//					toClient.print(serverReply);
+//					System.out.println("I'm sending the reply: " + serverReply);
+//					toClient.flush();
+//					toClient.close();
+//					myServerSocket.close();
+//					isRunning = true;
+//				}
+//			}
+			
+			System.out.println("The server has stopped!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

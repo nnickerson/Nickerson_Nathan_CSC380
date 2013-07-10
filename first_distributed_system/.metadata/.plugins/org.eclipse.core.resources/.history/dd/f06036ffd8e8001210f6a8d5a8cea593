@@ -1,0 +1,9 @@
+package server;
+
+public class MathLogic {
+
+	public MathLogic() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

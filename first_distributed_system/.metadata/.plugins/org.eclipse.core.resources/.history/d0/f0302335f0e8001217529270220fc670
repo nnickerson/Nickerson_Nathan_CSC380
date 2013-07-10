@@ -1,0 +1,37 @@
+package server;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Server {
+	
+	Socket sSocket;
+
+	public Server() {
+		
+	}
+
+	public void setupServer() {
+		try {
+			ServerSocket sServerSocket = new ServerSocket(7823);
+			Thread clientConnection = new Thread();
+			sSocket = sServerSocket.accept();
+			clientConnection.run();
+			InputStream is = sSocket.getInputStream();
+			InputStreamReader clientRequest = new InputStreamReader(is);
+			
+			boolean isRunning = true;
+//			while(isRunning) {
+//				System.out.println(clientRequest.read());
+//			}
+			
+			System.out.println("The server has stopped!");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

@@ -1,0 +1,61 @@
+package client;
+
+import java.net.Socket;
+import java.util.Scanner;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class Client {
+
+	Scanner scanner = new Scanner(System.in);
+	
+	public Client() {
+		Socket socket = new Socket();
+	}
+	
+	public void prompt() {
+		System.out.println("Here are your options:\nEnter 1 to ADD\nEnter 2 to SUBTRACT");
+		String userInput = "";
+		int choice = 0;
+		try {
+			userInput = scanner.nextLine();
+			choice = Integer.parseInt(userInput);
+			sendToServer(choice);
+		}
+		catch(Exception e) {
+			System.out.println("Your choice was invalid. \nPlease enter the number of your choice and press the return key.");
+			prompt();
+		}
+	}
+	
+	public void sendToServer(int userChoice) {
+		if(userChoice == 1) {
+			try {
+				System.out.println("Please enter your first number to add:");
+				int num1 = Integer.parseInt(scanner.nextLine());
+				
+				System.out.println("Please enter your second number to add:");
+				int num2 = Integer.parseInt(scanner.nextLine());
+			}
+			catch(Exception e) {
+				System.out.println("You've entered an invalid response. Please try again.");
+				sendToServer(1);
+			}
+		}
+		else if(userChoice == 2) {
+			try {
+				System.out.println("Please enter your first number to subtract:");
+				int num1 = Integer.parseInt(scanner.nextLine());
+				
+				System.out.println("Please enter your second number to subtract:");
+				int num2 = Integer.parseInt(scanner.nextLine());
+			}
+			catch(Exception e) {
+				System.out.println("You've entered an invalid response. Please try again.");
+				sendToServer(2);
+			}
+		}
+	}
+}

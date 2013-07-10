@@ -1,0 +1,17 @@
+package server;
+
+public class Driver {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		serverStuff();
+	}
+	
+	public static void serverStuff() {
+		Server server = new Server();
+		server.setupServer();
+		serverStuff();
+	}
+}

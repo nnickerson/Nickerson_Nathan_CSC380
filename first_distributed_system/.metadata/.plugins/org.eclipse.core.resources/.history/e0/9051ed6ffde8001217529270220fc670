@@ -1,0 +1,15 @@
+package server;
+
+public class Driver {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		boolean serverIsRunning = true;
+		while(serverIsRunning) {
+			Server server = new Server();
+			server.setupServer();
+		}
+	}
+}
