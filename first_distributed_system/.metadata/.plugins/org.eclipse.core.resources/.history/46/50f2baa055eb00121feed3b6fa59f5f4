@@ -1,0 +1,162 @@
+package server;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.lang.reflect.Method;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Server {
+	
+	Socket sSocket;
+	String serverResponse = "";
+	ServerSocket sServerSocket;
+	Thread clientConnection;
+	Class ml;
+	Method[] mlMethods;
+
+	public Server() {
+		
+	}
+	
+	public List<String> getMethodChoicesString() {
+		List<String> options = new ArrayList<String>();
+		options.add("Server Says: Please pick the method to use:;");
+		System.out.println("Number of methods available - " + mlMethods.length);
+		for(int i = 0; i < mlMethods.length; i++) {
+			options.add(i + ": " + mlMethods[i].getName() + ";");
+		}
+		return options;
+	}
+	
+	public String getClientsInput() {
+		String clientInput = "";
+		try {
+			InputStream is = sSocket.getInputStream();
+			InputStreamReader clientStream = new InputStreamReader(is);
+			BufferedReader buffRead = new BufferedReader(clientStream);
+			while(clientInput.equalsIgnoreCase("")) {
+				clientInput = buffRead.readLine();
+			}
+		}
+		catch(Exception e) {
+			System.out.println("The server was unable to get the clients input!");
+		}
+		return clientInput;
+	}
+	
+	public void sendMultipleMessagesToClient(List<String> messages) {
+		try {
+			//To client now//
+			OutputStream os = sSocket.getOutputStream();
+			PrintWriter osw = new PrintWriter(os);
+			System.out.println("Creating multiple messages from the server to send to the client.");
+			
+			for(String msg : messages) {
+				osw.write(msg);
+				osw.flush();
+			}
+			osw.close();
+			System.out.println("Server is writing multiple messages.");
+			//Done sending to client//
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			System.out.println("There was an error sending multiple messages from the server to the client!");
+		}
+	}
+	
+	public void sendMessageToClient(String messageToSend) {
+		try {
+			//To client now//
+			OutputStream os = sSocket.getOutputStream();
+			PrintWriter osw = new PrintWriter(os);
+			System.out.println("Creating the message from the server to send to the client.");
+			osw.write(messageToSend);
+			System.out.println("Server is writing message.");
+			osw.flush();
+			osw.close();
+			//Done sending to client//
+		}
+		catch(Exception e) {
+			System.out.println("There was an error sending a message from the server to the client!");
+		}
+	}
+	
+	public void invokeMathLogicMethod(String input) {
+		int choice = Integer.parseInt(input);
+//		mlMethods[choice].invoke(ml, );
+	}
+	
+	public String[] getParameters() {
+		List<String> msgs = new ArrayList<String>();
+		msgs.add("Please enter the numbers you'd like to apply:;");
+		msgs.add("(Seperate numbers with commas for example: 1,26,38,4,5,32).");
+		
+		sendMultipleMessagesToClient(msgs);
+		System.out.println("I told the client to enter some parameter values.");
+		
+		String ci = "";
+		boolean clientResponded = false;
+		while(!clientResponded) {
+			ci = getClientsInput();
+			if(ci != null) {
+				clientResponded = true;
+			}
+		}
+		System.out.println("Client responded with " + ci);
+		return ci.split(",");
+	}
+	
+	public void getAllMathLogicMethods() {
+		try {
+			ml = Class.forName("server.MathLogic");
+			mlMethods = ml.getMethods();
+		}
+		catch(Exception e) {
+			System.out.println("Could not find the MathLogic class!");
+		}
+	}
+
+	public void setupServer() {
+		try {
+			sServerSocket = new ServerSocket(7823);
+			while (true) {
+				sSocket = sServerSocket.accept();
+				if (sSocket.isConnected()) {
+					clientConnection = new Thread() {
+						public void run() {
+							try {
+								System.out.println("Server has started!");
+								System.out.println("A client has connected!");
+
+								if (sSocket != null) {
+									// Part2//
+									getAllMathLogicMethods();
+									sendMultipleMessagesToClient(getMethodChoicesString());
+									String clientsMethodChoice = getClientsInput();
+									System.out.println("The client has chosen method choice " + clientsMethodChoice);
+									getParameters();
+									// End of Part2//
+								}
+								System.out.println("The server has written the message!");
+							} catch (Exception e) {
+								System.out.println(e.getMessage() + " - A client has disconnected.");
+							}
+						}
+					};
+					clientConnection.start();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+}

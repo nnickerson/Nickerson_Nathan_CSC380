@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename method &apos;client.Client.getServerInput()&apos; to &apos;getServerMessage&apos;&#x0D;&#x0A;- Original project: &apos;nnickerson_Client&apos;&#x0D;&#x0A;- Original element: &apos;client.Client.getServerInput()&apos;&#x0D;&#x0A;- Renamed element: &apos;client.Client.getServerMessage()&apos;&#x0D;&#x0A;- Update references to refactored element" delegate="false" deprecate="false" description="Rename method &apos;getServerInput&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.method" input="/src&lt;client{Client.java[Client~getServerInput" name="getServerMessage" references="true" stamp="1373666534346" version="1.0"/>
+</session>

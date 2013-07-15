@@ -1,0 +1,216 @@
+/**
+ * 
+ */
+package server;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.lang.reflect.Method;
+import java.net.Socket;
+
+/**
+ * @author nnickerson
+ *
+ */
+public class ServerTask extends Thread {
+	public Socket taskSocket;
+	public Class mathLogic;
+	public Method[] mathLogicMethods;
+
+	public ServerTask(Socket socket) {
+		taskSocket = socket;
+		this.setName("ServerTaskThread");
+	}
+	
+	public void run() {
+		try {
+			System.out.println("New client has connected to this server!");
+			OutputStream os = taskSocket.getOutputStream();
+			PrintWriter osw = new PrintWriter(os);
+			
+			InputStream is = taskSocket.getInputStream();
+			InputStreamReader clientStream = new InputStreamReader(is);
+			BufferedReader buffRead = new BufferedReader(clientStream);
+			
+			System.out.println("Retrieving MathLogic class for server...");
+			getMathLogicClass();
+			getMathLogicMethods();
+			System.out.println("MathLogic class retrieved successfully!");
+			
+			String clientMessage = "";
+			String serverResponse = "";
+			
+			osw.println("Hello Client! Enter 1 to explore. Enter 2 to quit.");
+			osw.flush();
+			
+			boolean isCommunicating = true;
+			while(isCommunicating) {
+				clientMessage = buffRead.readLine();
+				if(clientMessage != null) {
+					if(clientMessage.equalsIgnoreCase("1")) {
+						System.out.println("The client is now exploring this server!");
+						exploreOption(osw, buffRead);
+					}
+					else if(clientMessage.equals("2")) {
+						System.out.println("Client Terminated...");
+						osw.close();
+						buffRead.close();
+						taskSocket.close();
+						isCommunicating = false;
+						System.exit(-1);
+					}
+					else {
+						System.out.println("Your response was invalid. Please enter 1 to explore and 2 to quit.");
+					}
+				}
+			}
+		}
+		catch(Exception e) {
+			System.out.println("There was an error on this server - " + e.getMessage());
+		}
+	}
+	
+	public void exploreOption(PrintWriter pw, BufferedReader br) {
+		String serverResponse = "";
+		serverResponse += "There are " + mathLogicMethods.length + " methods in the MathLogic class.";
+		serverResponse += ";Please enter the number corresponding to the method you'd like: ";
+		System.out.println("After the response back to client.");
+		for(int i = 0; i < mathLogicMethods.length; i++) {
+			serverResponse += ";" + i + ": " + mathLogicMethods[i].getName();
+		}
+		pw.println(serverResponse);
+		pw.flush();
+		
+		try {
+			String clientResponse = br.readLine();
+			getMethodParameters(Integer.parseInt(clientResponse), pw, br);
+		}
+		catch(Exception e) {
+			System.out.println("The client has responded with an invalid option. Making them try again...");
+			pw.println("You've entered an invalid response! Please try again!");
+			pw.flush();
+			exploreOption(pw, br);
+		}
+	}
+	
+	public void getMethodParameters(int choice, PrintWriter pw, BufferedReader br) {
+		System.out.println("The client has chosen a method.");
+		Class[] params = mathLogicMethods[choice].getParameterTypes();
+		String serverResponse = " ;These are the parameters you can use.;Please seperate parameters with commas and no spaces:";
+		String paramChoices = ";";
+		for(int i = 0; i < params.length; i++) {
+			paramChoices += "," + params[i];
+		}
+		serverResponse += paramChoices;
+		pw.println(paramChoices);
+		pw.flush();
+		System.out.println("Sent a response back to the client with params.");
+		
+		try {
+			String clientParams = br.readLine();
+			useClientParams(clientParams, pw, br, paramChoices);
+		}
+		catch(Exception e) {
+			System.out.println("There was an error getting the clients parameters - " + e.getMessage());
+		}
+	}
+	
+	public void useClientParams(String clientParams, PrintWriter pw, BufferedReader br, String methodParams) {
+		String[] rawParams = clientParams.split(",");
+		
+	}
+	
+	public void getMathLogicClass() {
+		try {
+			mathLogic = Class.forName("server.MathLogic");
+		}
+		catch(Exception e) {
+			System.out.println("Could not find the MathLogic class - " + e.getMessage());
+		}
+	}
+	
+	public void getMathLogicMethods() {
+		try {
+			mathLogicMethods = mathLogic.getDeclaredMethods();
+		}
+		catch(Exception e) {
+			System.out.println("Could not retrieve the methods for the MathLogic class - " + e.getMessage());
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public ServerTask() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param target
+	 */
+	public ServerTask(Runnable target) {
+		super(target);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param name
+	 */
+	public ServerTask(String name) {
+		super(name);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param group
+	 * @param target
+	 */
+	public ServerTask(ThreadGroup group, Runnable target) {
+		super(group, target);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param group
+	 * @param name
+	 */
+	public ServerTask(ThreadGroup group, String name) {
+		super(group, name);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param target
+	 * @param name
+	 */
+	public ServerTask(Runnable target, String name) {
+		super(target, name);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param group
+	 * @param target
+	 * @param name
+	 */
+	public ServerTask(ThreadGroup group, Runnable target, String name) {
+		super(group, target, name);
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @param group
+	 * @param target
+	 * @param name
+	 * @param stackSize
+	 */
+	public ServerTask(ThreadGroup group, Runnable target, String name,
+			long stackSize) {
+		super(group, target, name, stackSize);
+		// TODO Auto-generated constructor stub
+	}
+
+}

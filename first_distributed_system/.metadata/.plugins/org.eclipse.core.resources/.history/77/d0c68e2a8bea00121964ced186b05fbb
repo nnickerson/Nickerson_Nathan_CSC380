@@ -1,0 +1,74 @@
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.TypeVariable;
+
+import edu.neumont.csc380.ReflectionActivity;
+
+
+public class MainClass {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		doReflection();
+	}
+	
+	public static void doReflection() {
+		//1.//
+		Class reflection = null;
+		try {
+			reflection = Class.forName("edu.neumont.csc380.ReflectionActivity");
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		//End 1.//
+		
+		
+		//2.//
+		Constructor[] constructors = reflection.getConstructors();
+		System.out.println("Constructors:");
+		for(Constructor c : constructors) {
+			String printOut = "Name: " + c.getName() + "     ParameterTypes: ";
+			for(Class type : c.getParameterTypes()) {
+				printOut += type.getSimpleName() + " ";
+			}
+			System.out.println(printOut);
+		}
+		//End 2.//
+		
+		
+		//3//
+		ReflectionActivity rA;
+		try {
+			Constructor r = reflection.getConstructor(String.class, double.class);
+			try {
+				rA = (ReflectionActivity) r.newInstance("randomName", 13.00);
+			} catch (InstantiationException | IllegalAccessException
+					| IllegalArgumentException | InvocationTargetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}
+		//end 3//
+		
+		//4//
+		Field[] f = reflection.getDeclaredFields();
+		
+		for(Field field : f) {
+			System.out.println(field);
+		}
+		
+		
+		//end 4//
+		
+		//5//
+		Method method = reflection.getDeclaredMethod("addToNumber", 13.13);
+		//end 5//
+	}
+}

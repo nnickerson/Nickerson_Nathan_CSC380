@@ -1,0 +1,42 @@
+import java.lang.reflect.Constructor;
+import java.lang.reflect.TypeVariable;
+
+import edu.neumont.csc380.ReflectionActivity;
+
+
+public class MainClass {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		doReflection();
+	}
+	
+	public static void doReflection() {
+		//1.//
+		String reflectionPath = "ReflectionActivity.java";
+		Class reflection = reflectionPath.getClass();
+		//End 1.//
+		
+		ReflectionActivity rA;
+		
+		//2.//
+		Constructor[] constructors = reflection.getConstructors();
+		System.out.println("Constructors:");
+		for(Constructor c : constructors) {
+			String printOut = "Name: " + c.toString() + "     ParameterTypes: ";
+			for(Class type : c.getParameterTypes()) {
+				printOut += type.getSimpleName() + " ";
+			}
+			System.out.println(printOut);
+			if(c.getName().equals("ReflectionActivity")) {
+//				rA = 
+			}
+			
+		}
+		//End 2.//
+		
+		
+	}
+}

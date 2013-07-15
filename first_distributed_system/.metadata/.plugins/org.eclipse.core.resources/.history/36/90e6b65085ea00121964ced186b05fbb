@@ -1,0 +1,27 @@
+import java.lang.reflect.Constructor;
+
+
+public class MainClass {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		doReflection();
+	}
+	
+	public static void doReflection() {
+		String reflectionPath = "ReflectionActivity.java";
+		Class reflection = reflectionPath.getClass();
+		
+		Constructor[] constructors = reflection.getConstructors();
+		System.out.println("Constructors:");
+		for(Constructor constructor : constructors) {
+			String printOut = "Name: " + constructor.getName().toString() + "     ParameterTypes: ";
+			for(Class type : constructor.getParameterTypes()) {
+				printOut += type.getName() + " ";
+			}
+			System.out.println(printOut);
+		}
+	}
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;rawParams&apos; in &apos;server.ServerTask.useClientParams(...)&apos; to &apos;clientsParams&apos;&#x0D;&#x0A;- Original project: &apos;nnickerson_Server&apos;&#x0D;&#x0A;- Original element: &apos;server.ServerTask.useClientParams(String, PrintWriter, BufferedReader, String).rawParams&apos;&#x0D;&#x0A;- Renamed element: &apos;rawParams&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;rawParams&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;server{ServerTask.java[ServerTask~useClientParams~QString;~QPrintWriter;~QBufferedReader;~QString;@rawParams!3960!4004!3969!3977!\[QString;!0!false" name="clientsParams" references="true" stamp="1373841216929" version="1.0"/>
+</session>
