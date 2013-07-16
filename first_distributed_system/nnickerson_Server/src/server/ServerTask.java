@@ -4,6 +4,7 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -18,8 +19,9 @@ import java.net.Socket;
  */
 public class ServerTask extends Thread {
 	public Socket taskSocket;
-	public Class mathLogic;
-	public Method[] mathLogicMethods;
+	public Class pickedClass;
+	public Method[] pickedClassMethods;
+	public String absolutePath = "";
 
 	public ServerTask(Socket socket) {
 		taskSocket = socket;
@@ -36,10 +38,12 @@ public class ServerTask extends Thread {
 			InputStreamReader clientStream = new InputStreamReader(is);
 			BufferedReader buffRead = new BufferedReader(clientStream);
 			
-			System.out.println("Retrieving MathLogic class for server...");
-			getMathLogicClass();
-			getMathLogicMethods();
-			System.out.println("MathLogic class retrieved successfully!");
+			System.out.println("Retrieving class from the clients absolute input for server...");
+			System.out.println("PLEASE PUT YOUR CUSTOM CLASSES INSIDE OF THE importClasses PACKAGE IN THE SERVER PROJECT!!!");
+			System.out.println("Make sure the user folows the method parameters.");
+			getPickedClass(osw, buffRead);
+			getPickedClassMethods();
+			System.out.println("Picked class retrieved successfully!");
 			
 			String clientMessage = "";
 			String serverResponse = "";
@@ -76,11 +80,11 @@ public class ServerTask extends Thread {
 	
 	public void exploreOption(PrintWriter pw, BufferedReader br) {
 		String serverResponse = "";
-		serverResponse += "There are " + mathLogicMethods.length + " methods in the MathLogic class.";
+		serverResponse += "There are " + pickedClassMethods.length + " methods in the picked class.";
 		serverResponse += ";Please enter the number corresponding to the method you'd like: ";
 		System.out.println("After the response back to client.");
-		for(int i = 0; i < mathLogicMethods.length; i++) {
-			serverResponse += ";" + i + ": " + mathLogicMethods[i].getName();
+		for(int i = 0; i < pickedClassMethods.length; i++) {
+			serverResponse += ";" + i + ": " + pickedClassMethods[i].getName();
 		}
 		pw.println(serverResponse);
 		pw.flush();
@@ -99,8 +103,8 @@ public class ServerTask extends Thread {
 	
 	public void getMethodParameters(int choice, PrintWriter pw, BufferedReader br) {
 		System.out.println("The client has chosen a method.");
-		Method methodChosen = mathLogicMethods[choice];
-		Class[] params = mathLogicMethods[choice].getParameterTypes();
+		Method methodChosen = pickedClassMethods[choice];
+		Class[] params = pickedClassMethods[choice].getParameterTypes();
 		String serverResponse = " ;These are the parameters you can use.;Please seperate parameters with commas and no spaces:;(int,int[] would be: 1,3,4,2,6)";
 		String paramChoices = ";";
 		for(int i = 0; i < params.length; i++) {
@@ -156,8 +160,8 @@ public class ServerTask extends Thread {
 				}
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), double[].class);
-					result = "" + meth.invoke(mathLogic.newInstance(), doubleArgs);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), double[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), doubleArgs);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -171,8 +175,8 @@ public class ServerTask extends Thread {
 				}
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), int[].class);
-					result = "" + meth.invoke(mathLogic.newInstance(), intArgs);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), int[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), intArgs);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -186,8 +190,8 @@ public class ServerTask extends Thread {
 				}
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), boolean[].class);
-					result = "" + meth.invoke(mathLogic.newInstance(), booleanArgs);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), boolean[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), booleanArgs);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -201,8 +205,8 @@ public class ServerTask extends Thread {
 				}
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), byte[].class);
-					result = "" + meth.invoke(mathLogic.newInstance(), byteArgs);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), byte[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), byteArgs);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -216,8 +220,8 @@ public class ServerTask extends Thread {
 				}
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), short[].class);
-					result = "" + meth.invoke(mathLogic.newInstance(), shortArgs);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), short[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), shortArgs);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -231,8 +235,8 @@ public class ServerTask extends Thread {
 				}
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(),float[].class);
-					result = "" + meth.invoke(mathLogic.newInstance(), floatArgs);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(),float[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), floatArgs);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -246,8 +250,8 @@ public class ServerTask extends Thread {
 				}
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), long[].class);
-					result = "" + meth.invoke(mathLogic.newInstance(), longArgs);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), long[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), longArgs);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -261,8 +265,8 @@ public class ServerTask extends Thread {
 				}
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), String[].class);
-					result = "" + meth.invoke(mathLogic.newInstance(), stringArgs);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), String[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), stringArgs);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -275,8 +279,8 @@ public class ServerTask extends Thread {
 				double doubleArg = Double.parseDouble(clientsParams[0]);
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), double.class);
-					result = "" + meth.invoke(mathLogic.newInstance(), doubleArg);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), double.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), doubleArg);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -287,8 +291,8 @@ public class ServerTask extends Thread {
 				int intArg = Integer.parseInt(clientsParams[0]);
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), int.class);
-					result = "" + meth.invoke(mathLogic.newInstance(), intArg);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), int.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), intArg);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -299,8 +303,8 @@ public class ServerTask extends Thread {
 				boolean booleanArg = Boolean.parseBoolean(clientsParams[0]);			
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), boolean.class);
-					result = "" + meth.invoke(mathLogic.newInstance(), booleanArg);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), boolean.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), booleanArg);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -311,8 +315,8 @@ public class ServerTask extends Thread {
 				byte byteArg = Byte.parseByte(clientsParams[0]);					
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), byte.class);
-					result = "" + meth.invoke(mathLogic.newInstance(), byteArg);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), byte.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), byteArg);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -323,8 +327,8 @@ public class ServerTask extends Thread {
 				short shortArg = Short.parseShort(clientsParams[0]);
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), short.class);
-					result = "" + meth.invoke(mathLogic.newInstance(), shortArg);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), short.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), shortArg);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -335,8 +339,8 @@ public class ServerTask extends Thread {
 				float floatArg = Float.parseFloat(clientsParams[0]);
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(),float.class);
-					result = "" + meth.invoke(mathLogic.newInstance(), floatArg);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(),float.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), floatArg);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -347,8 +351,8 @@ public class ServerTask extends Thread {
 				long longArg = Long.parseLong(clientsParams[0]);
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), long.class);
-					result = "" + meth.invoke(mathLogic.newInstance(), longArg);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), long.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), longArg);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -359,8 +363,8 @@ public class ServerTask extends Thread {
 				String stringArg = clientsParams[0];
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), String.class);
-					result = "" + meth.invoke(mathLogic.newInstance(), stringArg);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), String.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), stringArg);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -409,8 +413,8 @@ public class ServerTask extends Thread {
 //			}
 			
 			try {
-				Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), prims);
-				result = "" + meth.invoke(mathLogic.newInstance(), values);
+				Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), prims);
+				result = "" + meth.invoke(pickedClass.newInstance(), values);
 			} catch (Exception e) {
 				System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 				e.printStackTrace();
@@ -536,8 +540,8 @@ public class ServerTask extends Thread {
 				}
 				
 				try {
-					Method meth = mathLogic.getDeclaredMethod(methodChosen.getName(), prims);
-					result = "" + meth.invoke(mathLogic.newInstance(), values);
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), prims);
+					result = "" + meth.invoke(pickedClass.newInstance(), values);
 				} catch (Exception e) {
 					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
 					e.printStackTrace();
@@ -551,21 +555,44 @@ public class ServerTask extends Thread {
 		return result;
 	}
 	
-	public void getMathLogicClass() {
+	public void getPickedClass(PrintWriter pw, BufferedReader br) {
 		try {
-			mathLogic = Class.forName("server.MathLogic");
+			File f = new File("src/importClasses");
+			File[] files = f.listFiles();
+			
+			String fileChoices = "";
+			
+			fileChoices += "Please choose the class to use from the importClasses package:;";
+			for(int i = 0; i < files.length; i++) {
+				fileChoices += i + ": " + files[i].getName() + ";";
+			}
+			
+			pw.println(fileChoices);
+			pw.flush();
+			
+			String userInput = br.readLine();
+			
+			int choice = Integer.parseInt(userInput);
+			
+			File pc = files[choice];
+			
+			System.out.println("CLASSNAME:::: " + pc.getName().replaceAll(".java", ""));
+			
+			String className = pc.getName().replaceAll(".java", "");
+			
+			pickedClass = Class.forName("importClasses." + className);
 		}
 		catch(Exception e) {
-			System.out.println("Could not find the MathLogic class - " + e.getMessage());
+			System.out.println("Could not find the class with the absolute path given - " + e.getMessage());
 		}
 	}
 	
-	public void getMathLogicMethods() {
+	public void getPickedClassMethods() {
 		try {
-			mathLogicMethods = mathLogic.getDeclaredMethods();
+			pickedClassMethods = pickedClass.getDeclaredMethods();
 		}
 		catch(Exception e) {
-			System.out.println("Could not retrieve the methods for the MathLogic class - " + e.getMessage());
+			System.out.println("Could not retrieve the methods from the absolute path picked - " + e.getMessage());
 		}
 	}
 	

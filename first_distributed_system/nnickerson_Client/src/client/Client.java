@@ -20,6 +20,7 @@ public class Client {
 
 	Socket cSocket;
 	Scanner scanner = new Scanner(System.in);
+	boolean receivedResponse = false;
 	
 	public Client() {
 		try {
@@ -32,7 +33,8 @@ public class Client {
 	}
 	
 	public void clientRun() {
-		boolean receivedResponse = false;
+		System.out.println("PLEASE PUT YOUR CUSTOM CLASSES INSIDE OF THE importClasses PACKAGE IN THE SERVER PROJECT!!!");
+		System.out.println("Make sure to follow the method types.");
 		while(!receivedResponse) {
 			if(cSocket != null) {
 				String serverMessage = getServerMessage();
@@ -72,6 +74,10 @@ public class Client {
 			InputStreamReader clientStream = new InputStreamReader(is);
 			BufferedReader buffRead = new BufferedReader(clientStream);
 			serverMessage = buffRead.readLine();
+			if(serverMessage.contains("Your answer is")) {
+				System.out.println("This client has been terminated by receiving the result...");
+				receivedResponse = true;
+			}
 		}
 		catch(Exception e) {
 			System.out.println("The client could not read in the server message!");
