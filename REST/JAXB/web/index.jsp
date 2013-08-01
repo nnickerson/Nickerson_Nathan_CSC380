@@ -15,8 +15,5 @@
     <title>Hello World</title>
   </head>
   <body>
-      <h1>Hello World!</h1>
-      <h2>This is the Grade Saver Delivery Service</h2>
-      <a href="PlaceOrder">Place an Order</a>
   </body>
 </html>

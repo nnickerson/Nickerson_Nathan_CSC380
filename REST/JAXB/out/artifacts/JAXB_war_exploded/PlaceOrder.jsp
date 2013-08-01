@@ -16,10 +16,11 @@
 <body>
 <h1>Choose a restaurant</h1>
 
-<h6><% Object rests = request.getAttribute("restaurants");
-    for(Restaurant r : (List<Restaurant>)rests){
-       out.print(r.getName());
-    } %>Here</h6>
+<p><% Object rests = request.getAttribute("restaurants");
+    for (Restaurant r : (List<Restaurant>) rests) {
+        out.println(r.getName());
+    } %>
+</p>
 
 
 </body>

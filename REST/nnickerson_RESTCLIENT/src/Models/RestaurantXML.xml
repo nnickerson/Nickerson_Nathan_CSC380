@@ -1,4 +1,4 @@
-<Restaruants>
+<Restaurants>
     <Restaurant name = "Pizza is Good">
         <Menu>
             <MenuItem name="Pep O Roni" price="3.65" discription="A big slice of pepperoni pizza"/>
@@ -18,4 +18,4 @@
             <MenuItem name="Dude it's a burrito" price="4.65" discription="What a burrito"/>
         </Menu>
     </Restaurant>
-</Restaruants>
+</Restaurants>

@@ -1,0 +1,21 @@
+<Restaurants>
+    <Restaurant name = "Pizza is Good">
+        <Menu>
+            <MenuItem name="Pep O Roni" price="3.65" discription="A big slice of pepperoni pizza"/>
+            <MenuItem name="Aloha Pie" price="5.99" discription="taste the tropics"/>
+            <MenuItem name="The Carnivore" price="8.95" discription="The taste of meat is here."/>
+        </Menu>
+    </Restaurant>
+    <Restaurant name = "Eggs in Fleas">
+        <Menu>
+            <MenuItem name="Egg Fleas Cheese" price="2.35" discription="Enough said"/>
+            <MenuItem name="Super Flea" price="5.99" discription="taste the tropics"/>
+            <MenuItem name="The Carnivore" price="8.95" discription="The MEAT is here"/>
+        </Menu>
+    </Restaurant>
+    <Restaurant name = "The Dude Burrito">
+        <Menu>
+            <MenuItem name="Dude it's a burrito" price="4.65" discription="What a burrito"/>
+        </Menu>
+    </Restaurant>
+</Restaurants>
