@@ -14,10 +14,10 @@
     <file path="/index.jsp" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1374892317944" ignored="false" />
     <file path="/FoodPlaces" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1374799906453" ignored="false" />
     <file path="/PlaceOrder.jsp" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375145215164" ignored="false" />
-    <file path="/PlaceOrder.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375320314607" ignored="false" />
+    <file path="/PlaceOrder.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375336771953" ignored="false" />
     <file path="/Main.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375231075772" ignored="false" />
     <file path="$PROJECT_DIR$/../../../Java3/nnickerson_RESTCLIENT/src/Client.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375234873973" ignored="false" />
-    <file path="/Client.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375322302105" ignored="false" />
+    <file path="/Client.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375335287547" ignored="false" />
     <file path="$PROJECT_DIR$/../../../Java3/nnickerson_RESTCLIENT/src/Driver.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375232955166" ignored="false" />
     <file path="/Driver.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375232955166" ignored="false" />
     <file path="/web.xml" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375234551968" ignored="false" />
@@ -26,7 +26,7 @@
     <file path="$PROJECT_DIR$/../../../Java3/nnickerson_RESTCLIENT/src/Models/Menu.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375315860922" ignored="false" />
     <file path="$PROJECT_DIR$/../../../Java3/nnickerson_RESTCLIENT/src/Models/Restaurant.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375315860922" ignored="false" />
     <file path="$PROJECT_DIR$/../../../Java3/nnickerson_RESTCLIENT/src/client/Driver.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375235298142" ignored="false" />
-    <file path="$PROJECT_DIR$/../../../Java3/nnickerson_RESTCLIENT/src/client/Client.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375322314448" ignored="false" />
+    <file path="$PROJECT_DIR$/../../../Java3/nnickerson_RESTCLIENT/src/client/Client.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375336253612" ignored="false" />
     <file path="$PROJECT_DIR$/../../../Java3/nnickerson_RESTCLIENT/buttface.xml" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375320613314" ignored="false" />
     <file path="$PROJECT_DIR$/../../../Java3/nnickerson_RESTCLIENT/src/Models/RestaurantXML.xml" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375315827884" ignored="false" />
     <file path="$PROJECT_DIR$/../../../Java3/UnmarshalTest/src/Tester.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375315500529" ignored="false" />
@@ -34,6 +34,7 @@
     <file path="$PROJECT_DIR$/../../../Java3/UnmarshalTest/src/testXml.xml" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375315578085" ignored="false" />
     <file path="/RestaurantXML.xml" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375317796049" ignored="false" />
     <file path="$PROJECT_DIR$/../../../Java3/nnickerson_RESTCLIENT/src/Models/MenuItem.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375315860922" ignored="false" />
+    <file path="/Confirm.java" changelist="c9ed3a98-00ca-43a2-92f1-fd1d9549fe11" time="1375331618213" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -97,7 +98,7 @@
       <file leaf-file-name="PlaceOrder.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Servlets/PlaceOrder.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="30" selection-start="1519" selection-end="1519" vertical-scroll-proportion="0.49554896">
+            <state line="44" column="80" selection-start="1483" selection-end="1483" vertical-scroll-proportion="0.7596439">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -171,6 +172,7 @@
         <option value="$PROJECT_DIR$/src/Models/Restaurants.java" />
         <option value="$PROJECT_DIR$/web/WEB-INF/web.xml" />
         <option value="$PROJECT_DIR$/src/Models/RestaurantXML.xml" />
+        <option value="$PROJECT_DIR$/src/Servlets/Confirm.java" />
         <option value="$PROJECT_DIR$/src/Servlets/PlaceOrder.java" />
       </list>
     </option>
@@ -322,6 +324,7 @@
     <property name="FullScreen" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="GoToClass.includeLibraries" value="false" />
+    <property name="dynamic.classpath" value="false" />
     <property name="options.searchVisible" value="true" />
     <property name="options.splitter.details.proportions" value="0.2" />
   </component>
@@ -639,13 +642,13 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32823366" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="CDI" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24459673" sideWeight="0.33853006" order="3" side_tool="true" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24390244" sideWeight="0.2030598" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32962137" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24390244" sideWeight="0.50486785" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24390244" sideWeight="0.30180806" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.49513212" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -766,7 +769,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Servlets/PlaceOrder.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="30" selection-start="1519" selection-end="1519" vertical-scroll-proportion="0.49554896">
+        <state line="44" column="80" selection-start="1483" selection-end="1483" vertical-scroll-proportion="0.7596439">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

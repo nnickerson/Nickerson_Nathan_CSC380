@@ -4,13 +4,13 @@
     <list default="true" id="98661403-e845-4089-926f-c18ae331a5b6" name="Default" comment="" />
     <ignored path="nnickerson_RESTCLIENT.iws" />
     <ignored path=".idea/workspace.xml" />
-    <file path="/Client.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375322302105" ignored="false" />
+    <file path="/Client.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375335287547" ignored="false" />
     <file path="/Dummy.txt" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375232771199" ignored="false" />
     <file path="/Driver.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375232955166" ignored="false" />
     <file path="$PROJECT_DIR$/../../BrettJava3/2ndAttempt/JAXB/web/WEB-INF/web.xml" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375234589160" ignored="false" />
     <file path="/web.xml" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375234551968" ignored="false" />
-    <file path="$PROJECT_DIR$/../../BrettJava3/2ndAttempt/JAXB/src/Servlets/PlaceOrder.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375320480091" ignored="false" />
-    <file path="/PlaceOrder.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375320314607" ignored="false" />
+    <file path="$PROJECT_DIR$/../../BrettJava3/2ndAttempt/JAXB/src/Servlets/PlaceOrder.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375337145891" ignored="false" />
+    <file path="/PlaceOrder.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375336771953" ignored="false" />
     <file path="$PROJECT_DIR$/../UnmarshalTest/src/Tester.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375315500529" ignored="false" />
     <file path="/Tester.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375315494022" ignored="false" />
     <file path="$PROJECT_DIR$/../UnmarshalTest/src/testXml.xml" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375315578085" ignored="false" />
@@ -18,6 +18,9 @@
     <file path="/RestaurantXML.xml" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375317796049" ignored="false" />
     <file path="/fragment.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375317982802" ignored="false" />
     <file path="$PROJECT_DIR$/../../BrettJava3/2ndAttempt/JAXB/src/Models/ObjectFactory.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375317336733" ignored="false" />
+    <file path="$PROJECT_DIR$/../../BrettJava3/2ndAttempt/JAXB/src/Servlets/ConfirmOrder.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375331592561" ignored="false" />
+    <file path="$PROJECT_DIR$/../../BrettJava3/2ndAttempt/JAXB/src/Servlets/Confirm.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375331881560" ignored="false" />
+    <file path="/Confirm.java" changelist="98661403-e845-4089-926f-c18ae331a5b6" time="1375331618214" ignored="false" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,7 +84,7 @@
       <file leaf-file-name="Client.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/client/Client.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="111" column="30" selection-start="4291" selection-end="4291" vertical-scroll-proportion="1.0379465">
+            <state line="54" column="19" selection-start="1654" selection-end="1654" vertical-scroll-proportion="0.7816092">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -404,7 +407,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1456" height="876" extended-state="6" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="JetGradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -425,7 +428,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24964131" sideWeight="0.65924895" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.24964131" sideWeight="0.65924895" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.34075105" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -549,7 +552,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/client/Client.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="30" selection-start="4291" selection-end="4291" vertical-scroll-proportion="1.0379465">
+        <state line="54" column="19" selection-start="1654" selection-end="1654" vertical-scroll-proportion="0.7816092">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

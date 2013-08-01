@@ -8,6 +8,7 @@ import javax.xml.bind.Unmarshaller;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Scanner;
 
 /**
@@ -26,8 +27,8 @@ public class Client {
     }
 
     public void createClient() {
-        HttpURLConnection myConnection = null;
-        HttpURLConnection myOutConnection = null;
+        URLConnection myConnection = null;
+        URLConnection myOutConnection = null;
         URL myURL = null;
         URL myOutURL = null;
         String nextLine = null;
@@ -38,32 +39,18 @@ public class Client {
 
 
             myConnection = (HttpURLConnection) myURL.openConnection();
-            myConnection.setRequestMethod("GET");
             myConnection.setReadTimeout(100000);
             myConnection.connect();
             BufferedReader in = new BufferedReader(new InputStreamReader(myConnection.getInputStream()));
-//            while((nextLine = in.readLine()) != null) {
-//                 xml += "\n" + nextLine;
-//            }
-
-//            System.out.println(xml);
 
 
             try {
                 JAXBContext context = JAXBContext.newInstance("Models");
                 Unmarshaller un = context.createUnmarshaller();
-//                File newXMLfile = new File("buttface.xml");
-//                PrintWriter pw = new PrintWriter(newXMLfile);
-//                pw.write(xml);
-//                pw.flush();
-//                pw.close();
-//                Scanner s = new Scanner(newXMLfile);
-//                while(s.hasNextLine()) {
-//                    System.out.println(s.nextLine());
-//                }
                 StringReader myXML = new StringReader(xml);
                 rests = (Restaurants) un.unmarshal(in);
                 in.close();
+                myConnection.getInputStream().close();
                 System.out.println("Unmarshalled the xml successfully");
             } catch (JAXBException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
@@ -90,21 +77,33 @@ public class Client {
 
             int iIndex = Integer.parseInt(userInput);
             System.out.println("Got your selection");
-            myConnection.disconnect();
-            myConnection = null;
 
-            myConnection = (HttpURLConnection) myOutURL.openConnection();
-            myConnection.setRequestMethod("POST");
-            myConnection.setDoOutput(true);
-            myConnection.setReadTimeout(100000);
-            myConnection.connect();
+            myURL = null;
+            myOutURL = null;
+            myConnection = null;
+            myOutConnection = null;
+            in = null;
+
+            myURL = new URL("http://localhost:8080/rest/PlaceOrder");
+
+            HttpURLConnection postConnection = (HttpURLConnection)myURL.openConnection();
+            postConnection.setRequestMethod("POST");
+            postConnection.setDoOutput(true);
+            postConnection.setRequestProperty("Content-Type", "text/xml; charset=utf-8");
+
             String results = "<Restaurants>\n" + "<Restaurant name = \"" + rests.getRestaurant().get(rIndex).getName() + "\">\n" +
                     "<Menu>\n" + "<MenuItem name=\"" + rests.getRestaurant().get(rIndex).getMenu().getMenuItem().get(iIndex).getName() + "\" price=\"3.65\" discription=\"A big slice of pepperoni pizza\"/>\n" +
                     "</Menu>\n" + "</Restaurant>\n" +"</Restaurants>";
-            PrintWriter pw = new PrintWriter(myOutConnection.getOutputStream());
-            pw.println(results);
+            postConnection.setRequestProperty( "Content-Length", "" + results.length());
+            postConnection.connect();
+
+            PrintWriter pw = new PrintWriter(postConnection.getOutputStream());
+            pw.write(results);
             pw.flush();
             pw.close();
+            postConnection.getResponseMessage();
+
+            System.out.println("Order sent!");
         } catch (Exception e) {
             System.out.println("HttpURLConnection could not connect! - " + e.getMessage());
         }
