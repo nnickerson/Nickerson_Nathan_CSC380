@@ -9,12 +9,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author nnickerson
@@ -23,7 +20,6 @@ import java.util.List;
 public class ServerTask extends Thread {
 	public Socket taskSocket;
 	public Class pickedClass;
-	public Object pickedObject;
 	public Method[] pickedClassMethods;
 	public String absolutePath = "";
 
@@ -79,6 +75,7 @@ public class ServerTask extends Thread {
 		}
 		catch(Exception e) {
 			System.out.println("There was an error on this server - " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -109,184 +106,460 @@ public class ServerTask extends Thread {
 		System.out.println("The client has chosen a method.");
 		Method methodChosen = pickedClassMethods[choice];
 		Class[] params = pickedClassMethods[choice].getParameterTypes();
-		String serverResponse = " ;These are the parameters you can use.;Please seperate parameters with commas and no spaces:;(int,int,boolean would be: 1,3,false);Actual Params: ";
+		String serverResponse = " ;These are the parameters you can use.;Please seperate parameters with commas and no spaces:;(int,int[] would be: 1,3,4,2,6)";
 		String paramChoices = ";";
-		
-		List<String> notPrimTypes = new ArrayList<String>();
-		boolean foundPrim = false;
-			for(int i = 0; i < params.length; i++) {
-				if(params[i].getSimpleName().contains("int") || params[i].getSimpleName().contains("String") || params[i].getSimpleName().contains("double") || params[i].getSimpleName().contains("float") || params[i].getSimpleName().contains("short") || params[i].getSimpleName().contains("long") || params[i].getSimpleName().contains("byte") || params[i].getSimpleName().contains("boolean")) {
-					paramChoices += params[i].getSimpleName() + ",";
-					serverResponse += params[i].getSimpleName() + ",";
-					foundPrim = true;
-				}
-				else {
-					notPrimTypes.add(params[i].getSimpleName());
-				}
-			}
-		if(foundPrim) {
-			serverResponse += paramChoices;
-			pw.println(serverResponse);
-			pw.flush();
-			System.out.println("Sent a response back to the client with params.");
+		for(int i = 0; i < params.length; i++) {
+			paramChoices += params[i].getSimpleName() + ",";
 		}
+		serverResponse += paramChoices;
+		pw.println(serverResponse);
+		pw.flush();
+		System.out.println("Sent a response back to the client with params.");
+		
 		try {
-			String clientParams = "";
-			if(foundPrim) {
-				clientParams = br.readLine();
-			}
-			serverResponse = "Please enter the number for the constructor you want to use for the following objects (list numbers separated by commas): ";
-			for(int i = 0; i < notPrimTypes.size(); i++) {
-				System.out.println("NOTPRIMMMMM: " + notPrimTypes.get(i));
-				Constructor[] cntrs = Class.forName("importClasses." + notPrimTypes.get(i)).getConstructors();
-				serverResponse+=notPrimTypes.get(i)+": ";
-				for(int j = 0; j < Class.forName("importClasses." + notPrimTypes.get(i)).getConstructors().length; j++) {
-					serverResponse +=";" + j + ": " + cntrs[j].getName();
-				}
-			}
-			
-			pw.println(serverResponse);
-			pw.flush();
-			
-			String clientConstructRequest = br.readLine();
-			List<Constructor> cs = new ArrayList<Constructor>();
-			List<String> paramTypes = new ArrayList<String>();
-			List<String> csCD = new ArrayList<String>();
-			String[] requests = clientConstructRequest.split(",");
-			for(int i = 0; i < notPrimTypes.size(); i++) {
-				cs.add(Class.forName("importClasses." + notPrimTypes.get(i)).getConstructors()[Integer.parseInt(requests[i])]);
-				serverResponse = "Please enter the values for the following parameters for the constructor " + cs.get(i).getName() + ":;";
-				for(Class c : cs.get(i).getParameterTypes()) {
-					serverResponse += c.getName() + ",";
-				}
-				pw.println(serverResponse);
-				pw.flush();
-				
-				String csCDrequest = br.readLine();
-				csCD.add(csCDrequest);
-			}
-			List<Object> objectParams = new ArrayList<Object>();
-			for(int i = 0; i < cs.size(); i++) {
-				for(Class c:cs.get(i).getParameterTypes()){
-					paramTypes.add(c.getName());
-				}
-				String[] pts = new String[paramTypes.size()];
-				for(int s=0;s<paramTypes.size();s++){
-					pts[s]=paramTypes.get(s);
-				}
-				objectParams.add(cs.get(i).newInstance(getArguments(csCD.get(i),pts)));
-			}
-			
-			useClientParams(methodChosen, clientParams, pw, br, paramChoices,objectParams);
+			String clientParams = br.readLine();
+			useClientParams(methodChosen, clientParams, pw, br, paramChoices);
 		}
 		catch(Exception e) {
-			e.printStackTrace();
+			System.out.println("There was an error getting the clients parameters - " + e.getMessage());
 		}
-	} 
-	
-	private Object[] getArguments(String string,String[] pt) {
-		List<Object> params = new ArrayList<Object>();
-		String[] processStrings = string.split(",");
-		for(int i=0;i<pt.length;i++){
-							if(pt[i].toString().contains("int")) {
-									params.add(Integer.parseInt(processStrings[i]));
-								}
-								else if(pt[i].toString().contains("String")) {
-									params.add(processStrings[i]);
-								}
-								else if(pt[i].toString().contains("long")) {
-									params.add(Long.parseLong(processStrings[i]));
-								}
-								else if(pt[i].toString().contains("short")) {
-									params.add(Short.parseShort(processStrings[i]));
-								}
-								else if(pt[i].toString().contains("double")) {
-									params.add(Double.parseDouble(processStrings[i]));
-								}
-								else if(pt[i].toString().contains("boolean")) {
-									params.add(Boolean.parseBoolean(processStrings[i]));
-								}
-								else if(pt[i].toString().contains("byte")) {
-									params.add(Byte.parseByte(processStrings[i]));
-								}
-								else if(pt[i].toString().contains("float")) {
-									params.add(Float.parseFloat(processStrings[i]));
-								}
-
-		}
-		return params.toArray();
 	}
-
-	public void useClientParams(Method methodChosen, String clientParams, PrintWriter pw, BufferedReader br, String methodParams, List<Object>objectParams) {
+	
+	public void useClientParams(Method methodChosen, String clientParams, PrintWriter pw, BufferedReader br, String methodParams) {
+		String[] clientsParams = clientParams.split(",");
 		String[] paramTypesToFollow = methodParams.split(",");
-		List<String> array = new ArrayList<String>();
-		for(int i = 0; i < paramTypesToFollow.length; i++) {
-			if(paramTypesToFollow[i].contains("int") || paramTypesToFollow[i].contains("String") || paramTypesToFollow[i].contains("double") || paramTypesToFollow[i].contains("float") || paramTypesToFollow[i].contains("short") || paramTypesToFollow[i].contains("long") || paramTypesToFollow[i].contains("byte") || paramTypesToFollow[i].contains("boolean")) {
-				array.add(paramTypesToFollow[i]);
-			}
-		}
-		String[] ar = new String[array.size()];
-		for(int s=0;s<array.size();s++){
-			ar[s]=array.get(s);
-		}
-		Object[] params = getArguments(clientParams, ar);
+		boolean hasMultipleParams = false;
 		String singleType = "";
 		String result = "";
 		
-		
-		result = "" + invokeMethod(methodChosen, params,objectParams.toArray(), paramTypesToFollow, pw, br);
+		if(paramTypesToFollow.length == 1) {
+			if(paramTypesToFollow[0].contains("[]")) {
+				hasMultipleParams = true;
+			}
+		}
+		else {
+			if(paramTypesToFollow[paramTypesToFollow.length-1].contains("[]")) {
+				hasMultipleParams = true;
+			}
+		}
+		result = "" + invokeMethod(methodChosen, clientsParams, paramTypesToFollow, hasMultipleParams);
 				
 		System.out.println("Server calculation is " + result);
 		pw.println("Your answer is " + result);
 		pw.flush();
 	}
 	
-	public String invokeMethod(Method methodChosen, Object[] clientsParams,Object[] objectParams ,String[] paramTypesToFollow, PrintWriter pw, BufferedReader br) {
+	public String invokeMethod(Method methodChosen, String[] clientsParams, String[] paramTypesToFollow, boolean hasMultipleParams) {
 		String result = "";
-		List<Object> primParams = new ArrayList<Object>();
-		List<Object> notPrims = new ArrayList<Object>();
-		for(Object o:objectParams){
-			notPrims.add(o);
-		}
-		for(Object o:clientsParams){
-			primParams.add(o);
-		}
-		List<Object> finalParams = new ArrayList<Object>();
-		for(String i:paramTypesToFollow){
-			if(i.contains("int") || i.contains("String") || i.contains("double") || i.contains("float") || i.contains("short") || i.contains("long") || i.contains("byte") || i.contains("boolean")){
-				finalParams.add(primParams.remove(0));
-			}
-			else
-			{
-				finalParams.add(notPrims.remove(0));
-			}
-		}
 		
-		try {
-			result = ""+methodChosen.invoke(pickedClass.newInstance(), finalParams.toArray());
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(paramTypesToFollow.length == 1 && hasMultipleParams) {
+			if(paramTypesToFollow[0].contains("double")) {
+				System.out.println("INVOKIGN WITH DOUBLES.");
+				double[] doubleArgs = new double[clientsParams.length];
+				for(int i = 0; i < clientsParams.length; i ++) {
+					doubleArgs[i] = Double.parseDouble(clientsParams[i]);
+				}
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), double[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), doubleArgs);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("int")) {
+				System.out.println("INVOKING WITH INTS.");
+				int[] intArgs = new int[clientsParams.length];
+				for(int i = 0; i < clientsParams.length; i ++) {
+					intArgs[i] = Integer.parseInt(clientsParams[i]);
+				}
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), int[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), intArgs);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("boolean")) {
+				System.out.println("INVOKING WITH BOOLEANS.");
+				boolean[] booleanArgs = new boolean[clientsParams.length];
+				for(int i = 0; i < clientsParams.length; i ++) {
+					booleanArgs[i] = Boolean.parseBoolean(clientsParams[i]);
+				}
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), boolean[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), booleanArgs);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("byte")) {
+				System.out.println("INVOKING WITH BYTES.");
+				byte[] byteArgs = new byte[clientsParams.length];
+				for(int i = 0; i < clientsParams.length; i ++) {
+					byteArgs[i] = Byte.parseByte(clientsParams[i]);
+				}
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), byte[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), byteArgs);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("short")) {
+				System.out.println("INVOKING WITH SHORTS.");
+				short[] shortArgs = new short[clientsParams.length];
+				for(int i = 0; i < clientsParams.length; i ++) {
+					shortArgs[i] = Short.parseShort(clientsParams[i]);
+				}
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), short[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), shortArgs);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("float")) {
+				System.out.println("INVOKING WITH FLOATS.");
+				float[] floatArgs = new float[clientsParams.length];
+				for(int i = 0; i < clientsParams.length; i ++) {
+					floatArgs[i] = Float.parseFloat(clientsParams[i]);
+				}
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(),float[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), floatArgs);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("long")) {
+				System.out.println("INVOKING WITH LONGS.");
+				long[] longArgs = new long[clientsParams.length];
+				for(int i = 0; i < clientsParams.length; i ++) {
+					longArgs[i] = Long.parseLong(clientsParams[i]);
+				}
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), long[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), longArgs);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("String")) {
+				System.out.println("INVOKING WITH INTS.");
+				String[] stringArgs = new String[clientsParams.length];
+				for(int i = 0; i < clientsParams.length; i ++) {
+					stringArgs[i] = clientsParams[i];
+				}
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), String[].class);
+					result = "" + meth.invoke(pickedClass.newInstance(), stringArgs);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
 		}
+		else if(paramTypesToFollow.length == 1 && !hasMultipleParams) {
+			if(paramTypesToFollow[0].contains("double")) {
+				System.out.println("INVOKIGN WITH DOUBLE.");
+				double doubleArg = Double.parseDouble(clientsParams[0]);
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), double.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), doubleArg);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("int")) {
+				System.out.println("INVOKING WITH INT.");
+				int intArg = Integer.parseInt(clientsParams[0]);
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), int.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), intArg);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("boolean")) {
+				System.out.println("INVOKING WITH BOOLEAN.");
+				boolean booleanArg = Boolean.parseBoolean(clientsParams[0]);			
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), boolean.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), booleanArg);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("byte")) {
+				System.out.println("INVOKING WITH BYTE.");
+				byte byteArg = Byte.parseByte(clientsParams[0]);					
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), byte.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), byteArg);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("short")) {
+				System.out.println("INVOKING WITH SHORT.");
+				short shortArg = Short.parseShort(clientsParams[0]);
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), short.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), shortArg);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("float")) {
+				System.out.println("INVOKING WITH FLOAT.");
+				float floatArg = Float.parseFloat(clientsParams[0]);
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(),float.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), floatArg);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("long")) {
+				System.out.println("INVOKING WITH LONG.");
+				long longArg = Long.parseLong(clientsParams[0]);
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), long.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), longArg);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			else if(paramTypesToFollow[0].contains("String")) {
+				System.out.println("INVOKING WITH String.");
+				String stringArg = clientsParams[0];
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), String.class);
+					result = "" + meth.invoke(pickedClass.newInstance(), stringArg);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+		}
+		else if(paramTypesToFollow.length > 1 && !hasMultipleParams) {
+			Class[] prims = new Class[paramTypesToFollow.length]; 
+			Object[] values = new Object[paramTypesToFollow.length];
+			for(int i = 0; i < paramTypesToFollow.length; i++) {
+				if(paramTypesToFollow[i].contains("int")) {
+					prims[i] = int.class;
+					values[i] = Integer.parseInt(clientsParams[i]);
+				}
+				else if(paramTypesToFollow[i].contains("String")) {
+					prims[i] = String.class;
+					values[i] = clientsParams[i];
+				}
+				else if(paramTypesToFollow[i].contains("long")) {
+					prims[i] = long.class;
+					values[i] = Long.parseLong(clientsParams[i]);
+				}
+				else if(paramTypesToFollow[i].contains("short")) {
+					prims[i] = short.class;
+					values[i] = Short.parseShort(clientsParams[i]);
+				}
+				else if(paramTypesToFollow[i].contains("double")) {
+					prims[i] = double.class;
+					values[i] = Double.parseDouble(clientsParams[i]);
+				}
+				else if(paramTypesToFollow[i].contains("boolean")) {
+					prims[i] = boolean.class;
+					values[i] = Boolean.parseBoolean(clientsParams[i]);
+				}
+				else if(paramTypesToFollow[i].contains("byte")) {
+					prims[i] = byte.class;
+					values[i] = Byte.parseByte(clientsParams[i]);
+				}
+				else if(paramTypesToFollow[i].contains("float")) {
+					prims[i] = float.class;
+					values[i] = Float.parseFloat(clientsParams[i]);
+				}
+			}
+//			for(int i = 0; i < values.length; i++) {
+//				values[i] = ()clientsParams[i];
+//			}
+			
+			try {
+				Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), prims);
+				result = "" + meth.invoke(pickedClass.newInstance(), values);
+			} catch (Exception e) {
+				System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+				e.printStackTrace();
+			}
+		}
+		else if(paramTypesToFollow.length > 1 && hasMultipleParams) {
+			try {
+				Class[] prims = new Class[paramTypesToFollow.length]; 
+				Object[] values = new Object[paramTypesToFollow.length];
+				for(int i = 0; i < paramTypesToFollow.length; i++) {
+					if(paramTypesToFollow.length-1 > i) {
+						if(paramTypesToFollow[i].contains("int")) {
+							prims[i] = int.class;
+							values[i] = Integer.parseInt(clientsParams[i]);
+						}
+						else if(paramTypesToFollow[i].contains("String")) {
+							prims[i] = String.class;
+							values[i] = clientsParams[i];
+						}
+						else if(paramTypesToFollow[i].contains("long")) {
+							prims[i] = long.class;
+							values[i] = Long.parseLong(clientsParams[i]);
+						}
+						else if(paramTypesToFollow[i].contains("short")) {
+							prims[i] = short.class;
+							values[i] = Short.parseShort(clientsParams[i]);
+						}
+						else if(paramTypesToFollow[i].contains("double")) {
+							prims[i] = double.class;
+							values[i] = Double.parseDouble(clientsParams[i]);
+						}
+						else if(paramTypesToFollow[i].contains("boolean")) {
+							prims[i] = boolean.class;
+							values[i] = Boolean.parseBoolean(clientsParams[i]);
+						}
+						else if(paramTypesToFollow[i].contains("byte")) {
+							prims[i] = byte.class;
+							values[i] = Byte.parseByte(clientsParams[i]);
+						}
+						else if(paramTypesToFollow[i].contains("float")) {
+							prims[i] = float.class;
+							values[i] = Float.parseFloat(clientsParams[i]);
+						}
+					}
+					else {
+						String type = paramTypesToFollow[i];
+						int index = i;
+						int newIndex = 0;
+						if(type.contains("int")) {
+							prims[i] = int[].class;
+							int[] ints = new int[(clientsParams.length)-i];
+							for(int a = i; a < clientsParams.length; a++) {
+								ints[newIndex] = Integer.parseInt(clientsParams[a]);
+								newIndex++;
+							}
+							values[index] = ints;
+						}
+						else if(type.contains("String")) {
+							prims[i] = String[].class;
+							String[] strings = new String[(clientsParams.length)-i];
+							for(int a = i; a < clientsParams.length; a++) {
+								strings[newIndex] = clientsParams[a];
+								newIndex++;
+							}
+							values[index] = strings;
+						}
+						else if(type.contains("long")) {
+							prims[i] = long[].class;
+							long[] longs = new long[(clientsParams.length)-i];
+							for(int a = i; a < clientsParams.length; a++) {
+								longs[newIndex] = Long.parseLong(clientsParams[a]);
+								newIndex++;
+							}
+							values[index] = longs;
+						}
+						else if(type.contains("short")) {
+							prims[i] = short[].class;
+							short[] shorts = new short[(clientsParams.length)-i];
+							for(int a = i; a < clientsParams.length; a++) {
+								shorts[newIndex] = Short.parseShort(clientsParams[a]);
+								newIndex++;
+							}
+							values[index] = shorts;
+						}
+						else if(type.contains("double")) {
+							prims[i] = double[].class;
+							double[] doubles = new double[(clientsParams.length)-i];
+							for(int a = i; a < clientsParams.length; a++) {
+								doubles[newIndex] = Double.parseDouble(clientsParams[a]);
+								newIndex++;
+							}
+							values[index] = doubles;
+						}
+						else if(type.contains("boolean")) {
+							prims[i] = boolean[].class;
+							boolean[] booleans = new boolean[(clientsParams.length)-i];
+							for(int a = i; a < clientsParams.length; a++) {
+								booleans[newIndex] = Boolean.parseBoolean(clientsParams[a]);
+								newIndex++;
+							}
+							values[index] = booleans;
+						}
+						else if(type.contains("byte")) {
+							prims[i] = byte[].class;
+							byte[] bytes = new byte[(clientsParams.length)-i];
+							for(int a = i; a < clientsParams.length; a++) {
+								bytes[newIndex] = Byte.parseByte(clientsParams[a]);
+								newIndex++;
+							}
+							values[index] = bytes;
+						}
+						else if(type.contains("float")) {
+							prims[i] = float[].class;
+							float[] floats = new float[(clientsParams.length)-i];
+							for(int a = i; a < clientsParams.length; a++) {
+								floats[newIndex] = Float.parseFloat(clientsParams[a]);
+								newIndex++;
+							}
+							values[index] = floats;
+						}
+						
+					}
+				}
+				
+				try {
+					Method meth = pickedClass.getDeclaredMethod(methodChosen.getName(), prims);
+					result = "" + meth.invoke(pickedClass.newInstance(), values);
+				} catch (Exception e) {
+					System.out.println("PROBLEM INVOKING THE METHOD! " + e.getMessage());
+					e.printStackTrace();
+				}
+			}
+			catch(Exception e) {
+				e.printStackTrace();
+			}
+		}	
 		
 		return result;
 	}
 	
 	public void getPickedClass(PrintWriter pw, BufferedReader br) {
 		try {
-			File f = new File("src/importClasses");
+			System.out.println("PICKED CLASS: " + this.getClass().getClassLoader().getResource("importClasses/").getPath());
+			File f = new File(this.getClass().getClassLoader().getResource("importClasses/").getPath());
 			File[] files = f.listFiles();
 			
 			String fileChoices = "";
@@ -307,13 +580,12 @@ public class ServerTask extends Thread {
 			
 			System.out.println("CLASSNAME:::: " + pc.getName().replaceAll(".java", ""));
 			
-			String className = pc.getName().replaceAll(".java", "");
-			
-			pickedClass = Class.forName("importClasses." + className);
-			
+			String className = pc.getName().replaceAll(".class", "");
+			pickedClass = Class.forName("importClasses."+className);
+			System.out.println("Set picked class to " + pickedClass.getName());
 		}
 		catch(Exception e) {
-			System.out.println("Could not find the class with the absolute path given - " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
