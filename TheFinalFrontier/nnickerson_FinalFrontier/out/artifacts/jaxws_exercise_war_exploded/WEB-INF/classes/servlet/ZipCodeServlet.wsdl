@@ -1,0 +1,629 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="ZipCodeServlet" targetNamespace="http://servlet/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://servlet/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://servlet/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://servlet/">
+  <xsd:element name="IOException" type="tns:IOException"/>
+  <xsd:complexType name="IOException">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="ServletException" type="tns:ServletException"/>
+  <xsd:complexType name="ServletException">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="getServletContext" type="tns:getServletContext"/>
+  <xsd:complexType name="getServletContext">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="getServletContextResponse" type="tns:getServletContextResponse"/>
+  <xsd:complexType name="getServletContextResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="return"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="service" type="tns:service"/>
+  <xsd:complexType name="service">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="req"/>
+      <xsd:element minOccurs="0" name="res"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="serviceResponse" type="tns:serviceResponse"/>
+  <xsd:complexType name="serviceResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="init2" type="tns:init2"/>
+  <xsd:complexType name="init2">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="sc"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="init2Response" type="tns:init2Response"/>
+  <xsd:complexType name="init2Response">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="log" type="tns:log"/>
+  <xsd:complexType name="log">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="msg" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="logResponse" type="tns:logResponse"/>
+  <xsd:complexType name="logResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="init1" type="tns:init1"/>
+  <xsd:complexType name="init1">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="filterConfig"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="init1Response" type="tns:init1Response"/>
+  <xsd:complexType name="init1Response">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="init" type="tns:init"/>
+  <xsd:complexType name="init">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="initResponse" type="tns:initResponse"/>
+  <xsd:complexType name="initResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="doFilter" type="tns:doFilter"/>
+  <xsd:complexType name="doFilter">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="request"/>
+      <xsd:element minOccurs="0" name="response"/>
+      <xsd:element minOccurs="0" name="chain"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="doFilterResponse" type="tns:doFilterResponse"/>
+  <xsd:complexType name="doFilterResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="destroy" type="tns:destroy"/>
+  <xsd:complexType name="destroy">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="destroyResponse" type="tns:destroyResponse"/>
+  <xsd:complexType name="destroyResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="setBus" type="tns:setBus"/>
+  <xsd:complexType name="setBus">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="bus"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="setBusResponse" type="tns:setBusResponse"/>
+  <xsd:complexType name="setBusResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="log1" type="tns:log1"/>
+  <xsd:complexType name="log1">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="message" type="xsd:string"/>
+      <xsd:element minOccurs="0" name="t"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="log1Response" type="tns:log1Response"/>
+  <xsd:complexType name="log1Response">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="destroyBus" type="tns:destroyBus"/>
+  <xsd:complexType name="destroyBus">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="destroyBusResponse" type="tns:destroyBusResponse"/>
+  <xsd:complexType name="destroyBusResponse">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="getInitParameterNames" type="tns:getInitParameterNames"/>
+  <xsd:complexType name="getInitParameterNames">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="getInitParameterNamesResponse" type="tns:getInitParameterNamesResponse"/>
+  <xsd:complexType name="getInitParameterNamesResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="return"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="getInitParameter" type="tns:getInitParameter"/>
+  <xsd:complexType name="getInitParameter">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="name" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="getInitParameterResponse" type="tns:getInitParameterResponse"/>
+  <xsd:complexType name="getInitParameterResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="return" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="getServletName" type="tns:getServletName"/>
+  <xsd:complexType name="getServletName">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="getServletNameResponse" type="tns:getServletNameResponse"/>
+  <xsd:complexType name="getServletNameResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="return" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="getServletInfo" type="tns:getServletInfo"/>
+  <xsd:complexType name="getServletInfo">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="getServletInfoResponse" type="tns:getServletInfoResponse"/>
+  <xsd:complexType name="getServletInfoResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="return" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="getServletConfig" type="tns:getServletConfig"/>
+  <xsd:complexType name="getServletConfig">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="getServletConfigResponse" type="tns:getServletConfigResponse"/>
+  <xsd:complexType name="getServletConfigResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="return"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="getBus" type="tns:getBus"/>
+  <xsd:complexType name="getBus">
+    <xsd:sequence/>
+  </xsd:complexType>
+  <xsd:element name="getBusResponse" type="tns:getBusResponse"/>
+  <xsd:complexType name="getBusResponse">
+    <xsd:sequence>
+      <xsd:element minOccurs="0" name="return"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="getServletConfigResponse">
+    <wsdl:part name="parameters" element="tns:getServletConfigResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="service">
+    <wsdl:part name="parameters" element="tns:service">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInitParameterNames">
+    <wsdl:part name="parameters" element="tns:getInitParameterNames">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getServletNameResponse">
+    <wsdl:part name="parameters" element="tns:getServletNameResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="destroyBusResponse">
+    <wsdl:part name="parameters" element="tns:destroyBusResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getServletInfoResponse">
+    <wsdl:part name="parameters" element="tns:getServletInfoResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getServletContextResponse">
+    <wsdl:part name="parameters" element="tns:getServletContextResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="init">
+    <wsdl:part name="parameters" element="tns:init">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="log1">
+    <wsdl:part name="parameters" element="tns:log1">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setBus">
+    <wsdl:part name="parameters" element="tns:setBus">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="log">
+    <wsdl:part name="parameters" element="tns:log">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doFilter">
+    <wsdl:part name="parameters" element="tns:doFilter">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getServletContext">
+    <wsdl:part name="parameters" element="tns:getServletContext">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="initResponse">
+    <wsdl:part name="parameters" element="tns:initResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="destroyResponse">
+    <wsdl:part name="parameters" element="tns:destroyResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBus">
+    <wsdl:part name="parameters" element="tns:getBus">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="doFilterResponse">
+    <wsdl:part name="parameters" element="tns:doFilterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInitParameterResponse">
+    <wsdl:part name="parameters" element="tns:getInitParameterResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="init1">
+    <wsdl:part name="parameters" element="tns:init1">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="init1Response">
+    <wsdl:part name="parameters" element="tns:init1Response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="init2">
+    <wsdl:part name="parameters" element="tns:init2">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getServletInfo">
+    <wsdl:part name="parameters" element="tns:getServletInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="init2Response">
+    <wsdl:part name="parameters" element="tns:init2Response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="destroyBus">
+    <wsdl:part name="parameters" element="tns:destroyBus">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="destroy">
+    <wsdl:part name="parameters" element="tns:destroy">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="log1Response">
+    <wsdl:part name="parameters" element="tns:log1Response">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getBusResponse">
+    <wsdl:part name="parameters" element="tns:getBusResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="serviceResponse">
+    <wsdl:part name="parameters" element="tns:serviceResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInitParameter">
+    <wsdl:part name="parameters" element="tns:getInitParameter">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="ServletException">
+    <wsdl:part name="ServletException" element="tns:ServletException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getServletName">
+    <wsdl:part name="parameters" element="tns:getServletName">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getServletConfig">
+    <wsdl:part name="parameters" element="tns:getServletConfig">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="IOException">
+    <wsdl:part name="IOException" element="tns:IOException">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="setBusResponse">
+    <wsdl:part name="parameters" element="tns:setBusResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getInitParameterNamesResponse">
+    <wsdl:part name="parameters" element="tns:getInitParameterNamesResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="logResponse">
+    <wsdl:part name="parameters" element="tns:logResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ZipCodeServletPortType">
+    <wsdl:operation name="getServletContext">
+      <wsdl:input name="getServletContext" message="tns:getServletContext">
+    </wsdl:input>
+      <wsdl:output name="getServletContextResponse" message="tns:getServletContextResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="service">
+      <wsdl:input name="service" message="tns:service">
+    </wsdl:input>
+      <wsdl:output name="serviceResponse" message="tns:serviceResponse">
+    </wsdl:output>
+      <wsdl:fault name="IOException" message="tns:IOException">
+    </wsdl:fault>
+      <wsdl:fault name="ServletException" message="tns:ServletException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="init2">
+      <wsdl:input name="init2" message="tns:init2">
+    </wsdl:input>
+      <wsdl:output name="init2Response" message="tns:init2Response">
+    </wsdl:output>
+      <wsdl:fault name="ServletException" message="tns:ServletException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="log">
+      <wsdl:input name="log" message="tns:log">
+    </wsdl:input>
+      <wsdl:output name="logResponse" message="tns:logResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="init1">
+      <wsdl:input name="init1" message="tns:init1">
+    </wsdl:input>
+      <wsdl:output name="init1Response" message="tns:init1Response">
+    </wsdl:output>
+      <wsdl:fault name="ServletException" message="tns:ServletException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="init">
+      <wsdl:input name="init" message="tns:init">
+    </wsdl:input>
+      <wsdl:output name="initResponse" message="tns:initResponse">
+    </wsdl:output>
+      <wsdl:fault name="ServletException" message="tns:ServletException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="doFilter">
+      <wsdl:input name="doFilter" message="tns:doFilter">
+    </wsdl:input>
+      <wsdl:output name="doFilterResponse" message="tns:doFilterResponse">
+    </wsdl:output>
+      <wsdl:fault name="IOException" message="tns:IOException">
+    </wsdl:fault>
+      <wsdl:fault name="ServletException" message="tns:ServletException">
+    </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="destroy">
+      <wsdl:input name="destroy" message="tns:destroy">
+    </wsdl:input>
+      <wsdl:output name="destroyResponse" message="tns:destroyResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="setBus">
+      <wsdl:input name="setBus" message="tns:setBus">
+    </wsdl:input>
+      <wsdl:output name="setBusResponse" message="tns:setBusResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="log1">
+      <wsdl:input name="log1" message="tns:log1">
+    </wsdl:input>
+      <wsdl:output name="log1Response" message="tns:log1Response">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="destroyBus">
+      <wsdl:input name="destroyBus" message="tns:destroyBus">
+    </wsdl:input>
+      <wsdl:output name="destroyBusResponse" message="tns:destroyBusResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInitParameterNames">
+      <wsdl:input name="getInitParameterNames" message="tns:getInitParameterNames">
+    </wsdl:input>
+      <wsdl:output name="getInitParameterNamesResponse" message="tns:getInitParameterNamesResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInitParameter">
+      <wsdl:input name="getInitParameter" message="tns:getInitParameter">
+    </wsdl:input>
+      <wsdl:output name="getInitParameterResponse" message="tns:getInitParameterResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getServletName">
+      <wsdl:input name="getServletName" message="tns:getServletName">
+    </wsdl:input>
+      <wsdl:output name="getServletNameResponse" message="tns:getServletNameResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getServletInfo">
+      <wsdl:input name="getServletInfo" message="tns:getServletInfo">
+    </wsdl:input>
+      <wsdl:output name="getServletInfoResponse" message="tns:getServletInfoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getServletConfig">
+      <wsdl:input name="getServletConfig" message="tns:getServletConfig">
+    </wsdl:input>
+      <wsdl:output name="getServletConfigResponse" message="tns:getServletConfigResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBus">
+      <wsdl:input name="getBus" message="tns:getBus">
+    </wsdl:input>
+      <wsdl:output name="getBusResponse" message="tns:getBusResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ZipCodeServletSoapBinding" type="tns:ZipCodeServletPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getServletContext">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getServletContext">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getServletContextResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="service">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="service">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="serviceResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="IOException">
+        <soap:fault name="IOException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ServletException">
+        <soap:fault name="ServletException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="init2">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="init2">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="init2Response">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ServletException">
+        <soap:fault name="ServletException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="init1">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="init1">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="init1Response">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ServletException">
+        <soap:fault name="ServletException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="log">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="log">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="logResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="destroy">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="destroy">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="destroyResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="doFilter">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="doFilter">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="doFilterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="IOException">
+        <soap:fault name="IOException" use="literal"/>
+      </wsdl:fault>
+      <wsdl:fault name="ServletException">
+        <soap:fault name="ServletException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="init">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="init">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="initResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+      <wsdl:fault name="ServletException">
+        <soap:fault name="ServletException" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="setBus">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="setBus">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="setBusResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="log1">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="log1">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="log1Response">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="destroyBus">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="destroyBus">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="destroyBusResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInitParameterNames">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInitParameterNames">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInitParameterNamesResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getInitParameter">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getInitParameter">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getInitParameterResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getServletName">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getServletName">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getServletNameResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getServletInfo">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getServletInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getServletInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getBus">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getBus">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getBusResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getServletConfig">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="getServletConfig">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getServletConfigResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ZipCodeServlet">
+    <wsdl:port name="ZipCodeServletPort" binding="tns:ZipCodeServletSoapBinding">
+      <soap:address location="http://localhost:9090/ZipCodeServletPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
