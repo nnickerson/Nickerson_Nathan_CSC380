@@ -78,7 +78,7 @@ public class ServerTask extends Thread {
 			}
 		}
 		catch(Exception e) {
-			System.out.println("There was an error on this server - " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -98,7 +98,7 @@ public class ServerTask extends Thread {
 			getMethodParameters(Integer.parseInt(clientResponse), pw, br);
 		}
 		catch(Exception e) {
-			System.out.println("The client has responded with an invalid option. Making them try again...");
+			e.printStackTrace();
 			pw.println("You've entered an invalid response! Please try again!");
 			pw.flush();
 			exploreOption(pw, br);
@@ -286,7 +286,7 @@ public class ServerTask extends Thread {
 	
 	public void getPickedClass(PrintWriter pw, BufferedReader br) {
 		try {
-			File f = new File("src/importClasses");
+			File f = new File(this.getClass().getClassLoader().getResource("importClasses/").getPath());
 			File[] files = f.listFiles();
 			
 			String fileChoices = "";
@@ -305,15 +305,15 @@ public class ServerTask extends Thread {
 			
 			File pc = files[choice];
 			
-			System.out.println("CLASSNAME:::: " + pc.getName().replaceAll(".java", ""));
+			System.out.println("CLASSNAME:::: " + pc.getName().replaceAll(".class", ""));
 			
-			String className = pc.getName().replaceAll(".java", "");
+			String className = pc.getName().replaceAll(".class", "");
 			
 			pickedClass = Class.forName("importClasses." + className);
 			
 		}
 		catch(Exception e) {
-			System.out.println("Could not find the class with the absolute path given - " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
@@ -322,7 +322,7 @@ public class ServerTask extends Thread {
 			pickedClassMethods = pickedClass.getDeclaredMethods();
 		}
 		catch(Exception e) {
-			System.out.println("Could not retrieve the methods from the absolute path picked - " + e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	
